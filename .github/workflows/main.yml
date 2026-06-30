@@ -25,9 +25,11 @@ jobs:
       - run: flutter pub get
 
       - name: Decode keystore
+        # یہاں ہم نے سیکرٹ کو env میں سیف کر دیا ہے تاکہ موبائل لائن بریکس کا رولا ختم ہو جائے
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          # یہاں ہم نے -di لگا دیا ہے، اب موبائل کاپی پیسٹ کی کوئی بھی غلطی بلڈ فیل نہیں کرے گی
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/upload-keystore.jks
+          echo "$KEYSTORE_BASE64" | base64 -di > android/app/upload-keystore.jks
 
       - name: Create key.properties
         run: |
