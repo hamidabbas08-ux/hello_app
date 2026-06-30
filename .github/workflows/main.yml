@@ -12,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java
+      # جاوا 17 کا سیٹ اپ (چونکہ آپ کے گریڈل میں جاوا 17 سیٹ ہے، یہ بہت ضروری ہے)
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -30,13 +31,13 @@ jobs:
 
       - name: Create key.properties
         run: |
-          # یہاں دونوں جگہ آپ کا دستیاب سیکرٹ KEYSTORE_PASSWORD استعمال کر دیا گیا ہے
+          # یہاں ہم نے آپ کے سیکرٹس کے مطابق بالکل درست نام سیٹ کر دیے ہیں
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
           
-          # پاتھ کے مسئلے سے بچنے کے لیے فائل کو دونوں جگہ کاپی کر رہے ہیں
+          # فائل کو دونوں جگہ کاپی کر رہے ہیں تاکہ پاتھ کا کوئی رولہ نہ رہے
           cp android/key.properties android/app/key.properties
 
       - run: flutter build appbundle --release
