@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # جاوا 17 کا سیٹ اپ یہاں شامل کر دیا گیا ہے تاکہ ورژن کا کوئی مسئلہ نہ آئے
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -31,9 +30,9 @@ jobs:
 
       - name: Create key.properties
         run: |
-          # یہاں STORE_PASSWORD کو بدل کر KEYSTORE_PASSWORD کر دیا گیا ہے
+          # یہاں دونوں جگہ آپ کا دستیاب سیکرٹ KEYSTORE_PASSWORD استعمال کر دیا گیا ہے
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
           
