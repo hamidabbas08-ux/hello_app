@@ -12,6 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # جاوا 17 کا سیٹ اپ یہاں شامل کر دیا گیا ہے تاکہ ورژن کا کوئی مسئلہ نہ آئے
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
@@ -24,7 +31,8 @@ jobs:
 
       - name: Create key.properties
         run: |
-          echo "storePassword=${{ secrets.STORE_PASSWORD }}" > android/key.properties
+          # یہاں STORE_PASSWORD کو بدل کر KEYSTORE_PASSWORD کر دیا گیا ہے
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
