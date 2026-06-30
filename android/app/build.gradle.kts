@@ -7,7 +7,8 @@ plugins {
 }
 
 val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("android/key.properties")
+// یہاں پاتھ کو درست کر دیا گیا ہے تاکہ یہ براہِ راست 'android/key.properties' کو پڑھے
+val keystorePropertiesFile = rootProject.file("key.properties")
 
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
@@ -56,3 +57,4 @@ kotlin {
 flutter {
     source = "../.."
 }
+
