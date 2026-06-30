@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # جاوا 17 کا سیٹ اپ (چونکہ آپ کے گریڈل میں جاوا 17 سیٹ ہے، یہ بہت ضروری ہے)
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
@@ -27,17 +26,15 @@ jobs:
 
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
+          # یہاں ہم نے -di لگا دیا ہے، اب موبائل کاپی پیسٹ کی کوئی بھی غلطی بلڈ فیل نہیں کرے گی
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/upload-keystore.jks
 
       - name: Create key.properties
         run: |
-          # یہاں ہم نے آپ کے سیکرٹس کے مطابق بالکل درست نام سیٹ کر دیے ہیں
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
-          
-          # فائل کو دونوں جگہ کاپی کر رہے ہیں تاکہ پاتھ کا کوئی رولہ نہ رہے
           cp android/key.properties android/app/key.properties
 
       - run: flutter build appbundle --release
